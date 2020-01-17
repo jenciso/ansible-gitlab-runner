@@ -1,0 +1,6 @@
+- name: runner | commons
+  remote_user: centos
+  hosts: runner
+  serial: 1
+  roles:
+    - runner

@@ -1,0 +1,36 @@
+---
+- name: runner | install repo
+  shell: "curl -L https://packages.gitlab.com/install/repositories/runner/gitlab-runner/script.rpm.sh | sudo bash"
+  args:
+    warn: no
+    creates: /etc/yum.repos.d/runner_gitlab-runner.repo
+
+
+- name: runner | install package
+  yum: name=gitlab-runner state=present
+
+
+- name: runner | check if runner is already registered
+  shell: "grep  {{ gitlab_server_url }} /etc/gitlab-runner/config.toml && touch /etc/gitlab-runner/runner.registered"
+  ignore_errors: true
+
+- name: runner | register
+  shell: "gitlab-runner register 
+          --non-interactive 
+          --url {{ gitlab_server_url }} 
+          --registration-token {{ gitlab_register_token }} 
+          --executor docker
+          --docker-image alpine:latest 
+          --description docker-runner
+          --tag-list docker,shared,on-premise
+          --run-untagged=true
+          --locked=false
+          --docker-volumes '/var/run/docker.sock:/var/run/docker.sock'
+          --access-level=not_protected"
+  args:
+    creates: /etc/gitlab-runner/runner.registered 
+  notify: restart gitlab-runner
+
+ 
+- name: runner | start service
+  systemd: name=gitlab-runner state=started enabled=yes

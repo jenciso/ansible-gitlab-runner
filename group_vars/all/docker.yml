@@ -1,0 +1,21 @@
+---
+docker_custom_config: true
+insecure_registry:
+  - 127.0.0.1/8
+  - nexus.enciso.website:18441
+  - nexus.enciso.website:18442
+  - nexus.enciso.website:18443
+  - nexus.enciso.website:18444
+
+
+daemon_json_content: |
+  "storage-driver": "overlay2",
+  "storage-opts": [
+      "overlay2.override_kernel_check=true"
+  ],
+  "ipv6": false,
+  "log-opts": {
+     "max-size": "100m"
+  },
+  "insecure-registries" : [ {% for reg in insecure_registry %}"{{ reg }}"{% if not loop.last %},{% endif %}{% endfor %} ],
+  "registry-mirrors" : ["http://nexus.enciso.website:18444/"]
