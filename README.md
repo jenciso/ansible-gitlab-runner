@@ -8,4 +8,6 @@ This is a playbook to provision gitlab runners
 ansible-playbook site.yml -i inventory
 ```
 
+### Demo 
 
+![](./docs/demo.svg)
