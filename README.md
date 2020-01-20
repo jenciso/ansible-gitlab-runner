@@ -10,4 +10,4 @@ ansible-playbook site.yml -i inventory
 
 ### Demo 
 
-![](./docs/demo.svg)
+![](./docs/demo-simulate.svg)
