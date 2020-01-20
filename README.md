@@ -1,14 +1,11 @@
 ## Gitlab runner-server
 
-### Intro
+This is a playbook to provision gitlab runners
 
-This is a playbook to provision runners server
-
-### To Use
+### Install
 
 ```
 ansible-playbook site.yml -i inventory
 ```
 
-### Author 
-Juan Enciso (juan.enciso@gmail.com)
+
