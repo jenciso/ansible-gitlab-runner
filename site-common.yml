@@ -3,6 +3,10 @@
   hosts: runner
   roles:
     - common
-    - docker-ce
     - firewalld
-    - join-win-ad
+
+- name: runner | docker-ce
+  remote_user: centos
+  hosts: runner
+  roles:
+    - docker-ce
