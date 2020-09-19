@@ -11,16 +11,16 @@
 
 
 - name: runner | check if runner is already registered
-  shell: "grep  {{ gitlab_server_url }} /etc/gitlab-runner/config.toml && touch /etc/gitlab-runner/runner.registered"
+  shell: "grep {{ gitlab_server_url }} /etc/gitlab-runner/config.toml && touch /etc/gitlab-runner/runner.registered"
   ignore_errors: true
 
 - name: runner | register
-  shell: "gitlab-runner register 
-          --non-interactive 
-          --url {{ gitlab_server_url }} 
-          --registration-token {{ gitlab_register_token }} 
+  shell: "gitlab-runner register
+          --non-interactive
+          --url {{ gitlab_server_url }}
+          --registration-token {{ gitlab_register_token }}
           --executor docker
-          --docker-image alpine:latest 
+          --docker-image alpine:latest
           --description docker-runner
           --tag-list docker,shared,on-premise
           --run-untagged=true
@@ -28,9 +28,9 @@
           --docker-privileged=true
           --access-level=not_protected"
   args:
-    creates: /etc/gitlab-runner/runner.registered 
+    creates: /etc/gitlab-runner/runner.registered
   notify: restart gitlab-runner
 
- 
+
 - name: runner | start service
   systemd: name=gitlab-runner state=started enabled=yes
